@@ -160,13 +160,11 @@ export function Menu({
 
   return (
     <StyledHeader className="top" id="main-menu">
-      <Navbar inverse fluid staticTop role="navigation" >
-        <Navbar.Header>
-          <Navbar.Brand href={brand.path} >
-            <img width={brand.width} src={brand.icon} alt={brand.alt} />
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        </Navbar.Header>
+      <Navbar role="navigation" collapseOnSelect expand="lg" bg="dark" variant="dark" >
+        <Navbar.Brand href={brand.path} >
+          <img width={brand.width} src={brand.icon} alt={brand.alt} />
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
         <Navbar.Collapse id="basic-navbar-nav">
 
@@ -194,18 +192,22 @@ export function Menu({
           </Nav>
         </Navbar.Collapse>
 
-        <Nav className="navbar-right hidden-xs">
+        <Nav className="navbar-right d-none d-sm-flex  ">
           {
             !navbarRight.user_is_anonymous && <NewMenu />}
+
           <NavDropdown
             id="settings-dropdown"
+
             title={t('Settings')}
             onMouseEnter={() => setDropdownOpen(true)}
             onMouseLeave={() => setDropdownOpen(false)}
             onToggle={value => setDropdownOpen(value)}
             open={dropdownOpen}
           >
-            <DropdownMenu>
+            <DropdownMenu
+              
+            >
               {settings.map((section, index) => [
                 <DropdownMenu.ItemGroup
                   key={`${section.label}`}
@@ -264,38 +266,47 @@ export function Menu({
               ]}
             </DropdownMenu>
           </NavDropdown>
-          {navbarRight.documentation_url && (
-            <NavItem
-              href={navbarRight.documentation_url}
-              target="_blank"
-              title="Documentation"
-            >
-              <i className="fa fa-question" />
+
+          {
+            navbarRight.documentation_url && (
+              <Nav.Item
+                href={navbarRight.documentation_url}
+                target="_blank"
+                title="Documentation"
+              >
+                <i className="fa fa-question" />
               &nbsp;
-            </NavItem>
-          )}
-          {navbarRight.bug_report_url && (
-            <NavItem
-              href={navbarRight.bug_report_url}
-              target="_blank"
-              title="Report a Bug"
-            >
-              <i className="fa fa-bug" />
+              </Nav.Item>
+            )
+          }
+          {
+            navbarRight.bug_report_url && (
+              <Nav.Item
+                href={navbarRight.bug_report_url}
+                target="_blank"
+                title="Report a Bug"
+              >
+                <i className="fa fa-bug" />
               &nbsp;
-            </NavItem>
-          )}
-          {navbarRight.show_language_picker && (
-            <LanguagePicker
-              locale={navbarRight.locale}
-              languages={navbarRight.languages}
-            />
-          )}
-          {navbarRight.user_is_anonymous && (
-            <NavItem href={navbarRight.user_login_url}>
-              <i className="fa fa-fw fa-sign-in" />
-              {t('Login')}
-            </NavItem>
-          )}
+              </Nav.Item>
+            )
+          }
+          {
+            navbarRight.show_language_picker && (
+              <LanguagePicker
+                locale={navbarRight.locale}
+                languages={navbarRight.languages}
+              />
+            )
+          }
+          {
+            navbarRight.user_is_anonymous && (
+              <Nav.Item href={navbarRight.user_login_url}>
+                <i className="fa fa-fw fa-sign-in" />
+                {t('Login')}
+              </Nav.Item>
+            )
+          }
         </Nav>
       </Navbar>
     </StyledHeader>

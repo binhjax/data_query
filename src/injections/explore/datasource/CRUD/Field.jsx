@@ -18,7 +18,7 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormGroup, HelpBlock, FormControl } from 'react-bootstrap';
+import { FormGroup, FormControl } from 'react-bootstrap';
 
 import { Tooltip } from 'src/common/components/Tooltip';
 import FormLabel from 'src/components/FormLabel';
@@ -34,7 +34,7 @@ const propTypes = {
   compact: PropTypes.bool,
 };
 const defaultProps = {
-  onChange: () => {},
+  onChange: () => { },
   compact: false,
   description: null,
 };
@@ -74,7 +74,9 @@ export default class Field extends React.PureComponent {
         </FormLabel>{' '}
         {hookedControl}
         <FormControl.Feedback />
-        {!compact && description && <HelpBlock>{description}</HelpBlock>}
+        {
+          // !compact && description && <HelpBlock>{description}</HelpBlock>
+        }
       </FormGroup>
     );
   }

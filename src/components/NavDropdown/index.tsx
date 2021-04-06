@@ -57,6 +57,8 @@ const NavDropdown = styled(ReactBootstrapNavDropdown)`
     padding: ${({ theme }) => theme.gridUnit}px 0;
     top: 100%;
     border: none;
+    left: auto;
+    right: 0px;
   }
 `;
 

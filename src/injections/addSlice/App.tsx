@@ -30,10 +30,12 @@ setupApp();
 setupPlugins();
 
 const addSliceContainer = document.getElementById('app');
+
 const bootstrapData = JSON.parse(
   addSliceContainer?.getAttribute('data-bootstrap') || '{}',
 );
 
+console.log("binhnt.injctions.addSlice.App: bootstrapData = ", bootstrapData)
 initFeatureFlags(bootstrapData.common.feature_flags);
 
 const App = () => (

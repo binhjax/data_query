@@ -205,7 +205,7 @@ export default class AdhocFilterEditPopover extends React.Component {
             buttonSize="small"
             className="m-r-5"
             onClick={this.onSave}
-            cta
+          // cta
           >
             {t('Save')}
           </Button>

@@ -18,7 +18,7 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, Well } from 'react-bootstrap';
+import { Col, Card as Well } from 'react-bootstrap';
 import { Radio } from 'src/common/components/Radio';
 import Alert from 'src/components/Alert';
 import Badge from 'src/components/Badge';

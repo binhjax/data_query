@@ -583,7 +583,7 @@ export default class ResultSet extends React.PureComponent<
                   {tempTable}
                 </strong>
                 ] {t('was created')} &nbsp;
-                <ButtonGroup>
+                {/* <ButtonGroup>
                   <Button
                     buttonSize="small"
                     className="m-r-5"
@@ -599,7 +599,7 @@ export default class ResultSet extends React.PureComponent<
                     database={this.props.database}
                     actions={this.props.actions}
                   />
-                </ButtonGroup>
+                </ButtonGroup> */}
               </>
             }
           />

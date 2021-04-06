@@ -16,7 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import '../../../stylesheets/superset.less';
 
+// import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.scss';
+import '../../../stylesheets/superset.less';
 // Importing Antd under its own stylesheet to prevent unintentional theming.
 import '../../../stylesheets/antd/index.less';

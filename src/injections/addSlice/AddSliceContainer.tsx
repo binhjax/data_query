@@ -17,7 +17,8 @@
  * under the License.
  */
 import React from 'react';
-import { Panel } from 'react-bootstrap';
+// import { Card as Panel } from 'react-bootstrap';
+import { Card  } from 'antd';
 import Button from 'src/components/Button';
 import Select from 'src/components/Select';
 import { t } from '@superset-ui/core';
@@ -42,7 +43,7 @@ export type AddSliceContainerState = {
 
 const styleSelectContainer = { width: 600, marginBottom: '10px' };
 
-export default class AddSliceContainer extends React.PureComponent<
+class AddSliceContainer extends React.PureComponent<
   AddSliceContainerProps,
   AddSliceContainerState
 > {
@@ -58,6 +59,7 @@ export default class AddSliceContainer extends React.PureComponent<
   }
 
   exploreUrl() {
+    
     const formData = encodeURIComponent(
       JSON.stringify({
         viz_type: this.state.visType,
@@ -87,13 +89,10 @@ export default class AddSliceContainer extends React.PureComponent<
   }
 
   render() {
+    console.log("binhnt.injections.addSlide.AddSlideContainer")
     return (
       <div className="container">
-        <Panel>
-          <Panel.Heading>
-            <h3>{t('Create a new chart')}</h3>
-          </Panel.Heading>
-          <Panel.Body>
+         <Card cover={  <h3>{t('Create a new chart')}</h3> } >
             <div>
               <p>{t('Choose a dataset')}</p>
               <div style={styleSelectContainer}>
@@ -148,9 +147,10 @@ export default class AddSliceContainer extends React.PureComponent<
             </Button>
             <br />
             <br />
-          </Panel.Body>
-        </Panel>
+       
+         </Card>
       </div>
     );
   }
 }
+export default  AddSliceContainer;

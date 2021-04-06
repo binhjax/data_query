@@ -50,7 +50,11 @@ const bootstrapData = JSON.parse(appContainer.getAttribute('data-bootstrap'));
 
 initFeatureFlags(bootstrapData.common.feature_flags);
 
+// console.log("binhnt.injections.SqlLab.App: bootstrapData=  ", JSON.stringify(bootstrapData))
+
 const initialState = getInitialState(bootstrapData);
+// console.log("binhnt.injections.SqlLab.App: initialState=  ", JSON.stringify(initialState))
+
 const sqlLabPersistStateConfig = {
   paths: ['sqlLab'],
   config: {

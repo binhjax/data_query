@@ -18,7 +18,7 @@
  */
 // import { styled } from '@superset-ui/core';
 import React, { ReactNode } from 'react';
-import { ControlLabel } from 'react-bootstrap';
+import { FormLabel as ControlLabel } from 'react-bootstrap';
 
 export type FormLabelProps = {
   children: ReactNode;

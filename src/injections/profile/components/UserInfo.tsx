@@ -19,7 +19,7 @@
 import React from 'react';
 import Gravatar from 'react-gravatar';
 import moment from 'moment';
-import { Panel } from 'react-bootstrap';
+import { Card as Panel } from 'react-bootstrap';
 import { t } from '@superset-ui/core';
 import { UserWithPermissionsAndRoles } from '../../../types/bootstrapTypes';
 

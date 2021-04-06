@@ -26,7 +26,7 @@ import {
 } from '@ant-design/icons';
 import { Popover } from 'src/common/components/index';
 import Collapse from 'src/common/components/Collapse';
-import { Global } from '@emotion/core';
+import { Global } from '@emotion/react';
 import {
   Indent,
   Item,

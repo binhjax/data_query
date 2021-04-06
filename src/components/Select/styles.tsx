@@ -17,7 +17,7 @@
  * under the License.
  */
 import React, { CSSProperties, ComponentType, ReactNode } from 'react';
-import { css, SerializedStyles, ClassNames } from '@emotion/core';
+import { css, SerializedStyles, ClassNames } from '@emotion/react';
 import { SupersetTheme } from '@superset-ui/core';
 import {
   Styles,

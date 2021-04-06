@@ -18,7 +18,7 @@
  */
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { NavItem } from 'react-bootstrap';
+import { NavItem, Nav } from 'react-bootstrap';
 import { Menu } from 'src/common/components';
 import NavDropdown from '../NavDropdown';
 
@@ -44,20 +44,25 @@ export default function MenuObject({
   isFrontendRoute,
 }: MenuObjectProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
   if (url && isFrontendRoute) {
     return (
-      <li role="presentation">
-        <Link role="button" to={url}>
+      // <li role="presentation">
+      <Nav.Item>
+        <Nav.Link role="button" href={url}>
           {label}
-        </Link>
-      </li>
+        </Nav.Link>
+      </Nav.Item >
+      // </li>
     );
   }
+
+
   if (url) {
     return (
-      <NavItem eventKey={index} href={url}>
-        {label}
-      </NavItem>
+      <Nav.Item>
+        <Nav.Link eventKey={index} href={url} >{label} </Nav.Link>
+      </Nav.Item>
     );
   }
 
@@ -71,23 +76,25 @@ export default function MenuObject({
       open={dropdownOpen}
     >
       <Menu>
-        {childs?.map((child: MenuObjectChildProps | string, index1: number) => {
-          if (typeof child === 'string' && child === '-') {
-            return <Menu.Divider key={`$${index1}`} />;
-          }
-          if (typeof child !== 'string') {
-            return (
-              <Menu.Item key={`${child.label}`}>
-                {child.isFrontendRoute ? (
-                  <Link to={child.url || ''}>{child.label}</Link>
-                ) : (
-                  <a href={child.url}>{child.label}</a>
-                )}
-              </Menu.Item>
-            );
-          }
-          return null;
-        })}
+        {
+          childs?.map((child: MenuObjectChildProps | string, index1: number) => {
+            if (typeof child === 'string' && child === '-') {
+              return <Menu.Divider key={`$${index1}`} />;
+            }
+            if (typeof child !== 'string') {
+              return (
+                <Menu.Item key={`${child.label}`}>
+                  {child.isFrontendRoute ? (
+                    <Link to={child.url || ''}>{child.label}</Link>
+                  ) : (
+                    <a href={child.url}>{child.label}</a>
+                  )}
+                </Menu.Item>
+              );
+            }
+            return null;
+          })
+        }
       </Menu>
     </NavDropdown>
   );

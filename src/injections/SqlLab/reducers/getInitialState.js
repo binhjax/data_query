@@ -187,7 +187,7 @@ export default function getInitialState({
       queriesLastUpdate: Date.now(),
       user,
     },
-    requestedQuery,
+    // requestedQuery,
     messageToasts: getToastsFromPyFlashMessages(
       (common || {}).flash_messages || [],
     ),

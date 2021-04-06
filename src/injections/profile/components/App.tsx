@@ -17,8 +17,10 @@
  * under the License.
  */
 import React from 'react';
-import { Col, Row, Panel } from 'react-bootstrap';
-import Tabs from 'src/common/components/Tabs';
+import { Col, Row, Card as Panel } from 'react-bootstrap';
+// import Tabs from 'src/common/components/Tabs';
+import { Tabs } from 'antd';
+
 import { t } from '@superset-ui/core';
 
 import Favorites from './Favorites';
@@ -33,6 +35,9 @@ interface AppProps {
 }
 
 export default function App({ user }: AppProps) {
+
+  console.log("binhnt.injsection.profile.component.app: inject in app")
+
   return (
     <div className="container app">
       <Row>

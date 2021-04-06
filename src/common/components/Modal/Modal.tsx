@@ -21,7 +21,7 @@ import { isNil } from 'lodash';
 import { styled, SupersetThemeProps, t } from '@superset-ui/core';
 import { Modal as BaseModal } from 'src/common/components';
 import Button from 'src/components/Button';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 
 interface ModalProps {
   className?: string;

@@ -162,22 +162,22 @@ class DashboardGrid extends React.PureComponent {
           {
             gridComponent.children.map((id, index) => {
               return (
-                <div className="testb" >
-                  <DashboardComponent
-                    key={id}
-                    id={id}
-                    parentId={gridComponent.id}
-                    depth={depth + 1}
-                    index={index}
-                    availableColumnCount={GRID_COLUMN_COUNT}
-                    columnWidth={columnWidth}
-                    isComponentVisible={isComponentVisible}
-                    onResizeStart={this.handleResizeStart}
-                    onResize={this.handleResize}
-                    onResizeStop={this.handleResizeStop}
-                    onChangeTab={this.handleChangeTab}
-                  />
-                </div>
+
+                <DashboardComponent
+                  key={id}
+                  id={id}
+                  parentId={gridComponent.id}
+                  depth={depth + 1}
+                  index={index}
+                  availableColumnCount={GRID_COLUMN_COUNT}
+                  columnWidth={columnWidth}
+                  isComponentVisible={isComponentVisible}
+                  onResizeStart={this.handleResizeStart}
+                  onResize={this.handleResize}
+                  onResizeStop={this.handleResizeStop}
+                  onChangeTab={this.handleChangeTab}
+                />
+
               )
             })
           }

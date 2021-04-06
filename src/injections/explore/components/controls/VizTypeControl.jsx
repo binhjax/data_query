@@ -19,6 +19,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, FormControl } from 'react-bootstrap';
+
 import { Behavior, t, getChartMetadataRegistry } from '@superset-ui/core';
 import { useDynamicPluginContext } from 'src/components/DynamicPlugins';
 import { Tooltip } from 'src/common/components/Tooltip';
@@ -236,9 +237,7 @@ const VizTypeControl = props => {
       >
         <div className="viztype-control-search-box">
           <FormControl
-            inputRef={ref => {
-              searchRef.current = ref;
-            }}
+            ref={searchRef}
             type="text"
             value={filter}
             placeholder={t('Search')}

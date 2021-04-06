@@ -1,0 +1,8 @@
+@import "~bootstrap/scss/bootstrap";
+.table>thead>tr>th {
+    width: auto  !important;
+}
+
+.input-group-addon, .input-group-btn {
+     width: auto !important; 
+}

@@ -55,6 +55,10 @@ const APP_DIR = path.resolve(__dirname, './');
 // output dir
 const BUILD_DIR = path.resolve(__dirname, './dist');
 
+//binhnt add 
+const { createEmotionPlugin } = require('emotion-ts-plugin')
+
+
 const {
   mode = 'development',
   devserverPort = 9000,
@@ -229,6 +233,7 @@ const config = {
     addSlice: addPreamble('/src/injections/addSlice/index.tsx'),
     dashboard: addPreamble('/src/injections/dashboard/index.jsx'),
     sqllab: addPreamble('/src/injections/SqlLab/index.tsx'),
+    sqlsupport: addPreamble('/src/injections/SqlSupport/index.tsx'),
     crudViews: addPreamble('/src/injections/views/index.tsx'),
     menu: addPreamble('src/injections/menu/index.tsx'),
     profile: addPreamble('/src/injections/profile/index.tsx'),
@@ -356,6 +361,24 @@ const config = {
               // must override compiler options here, even though we have set
               // the same options in `tsconfig.json`, because they may still
               // be overriden by `tsconfig.json` in node_modules subdirectories.
+              getCustomTransformers: () => ({
+                before: [
+                  createEmotionPlugin({
+                    // <------------------- here
+                    sourcemap: true,
+                    autoLabel: true,
+                    labelFormat: '[local]',
+                    // if the jsxFactory is set, should we auto insert the import statement
+                    autoInject: true,
+                    // set for react@17 new jsx runtime
+                    // only effect if `autoInject` is true
+                    // set it in createEmotionPlugin options rather than in `tsconfig.json` will generate more optimized codes:
+                    // import { jsx } from 'react/jsx-runtime' for files not using emotion
+                    // import { jsx } from '@emotion/react/jsx-runtime' for files using emotion
+                    jsxImportSource: '@emotion/react',
+                  }),
+                ],
+              }),
               compilerOptions: {
                 esModuleInterop: false,
                 importHelpers: false,
@@ -409,6 +432,18 @@ const config = {
             },
           },
         ],
+      },
+      /* binhnt add bootstrap 4.0 */
+      {
+        test: /\.(scss)$/,
+        use: [{
+          loader: 'style-loader', // inject CSS to page
+        }, {
+          loader: 'css-loader', // translates CSS into CommonJS modules
+        },
+        {
+          loader: 'sass-loader' // compiles Sass to CSS
+        }]
       },
       /* for css linking images (and viz plugin thumbnails) */
       {

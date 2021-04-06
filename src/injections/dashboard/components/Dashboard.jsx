@@ -39,7 +39,9 @@ import {
 import OmniContainer from '../../../components/OmniContainer';
 import { areObjectsEqual } from '../../../reduxUtils';
 
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import '../stylesheets/index.less';
+
 import getLocationHash from '../util/getLocationHash';
 import isDashboardEmpty from '../util/isDashboardEmpty';
 import { getAffectedOwnDataCharts } from '../util/charts/getOwnDataCharts';

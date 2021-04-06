@@ -20,6 +20,8 @@ import React, { ReactNode } from 'react';
 import { Dropdown as AntdDropdown, Tooltip } from 'src/common/components';
 import { styled } from '@superset-ui/core';
 import kebabCase from 'lodash/kebabCase';
+import { CacheProvider } from '@emotion/react';
+import { cache } from '@emotion/css'
 
 const MenuDots = styled.div`
   width: ${({ theme }) => theme.gridUnit * 0.75}px;
@@ -89,8 +91,7 @@ const StyledDropdownButton = styled.div`
       }
       &:nth-child(2) {
         margin: 0;
-        border-radius: ${({ theme }) =>
-    `0 ${theme.gridUnit}px ${theme.gridUnit}px 0`};
+        border-radius: ${({ theme }) => `0 ${theme.gridUnit}px ${theme.gridUnit}px 0`};
         width: ${({ theme }) => theme.gridUnit * 9}px;
         &:before,
         &:hover:before {
@@ -127,6 +128,7 @@ export const Dropdown = ({ overlay, ...rest }: DropdownProps) => (
   </AntdDropdown>
 );
 
+//binhnt test
 export const DropdownButton = ({
   overlay,
   tooltip,
@@ -138,9 +140,11 @@ export const DropdownButton = ({
       buttonsRender?: DropdownProps['buttonsRender'];
     } = {},
   ) => (
-    <StyledDropdownButton>
+    <CacheProvider value={cache} >
+      {/* <StyledDropdownButton> */}
       <AntdDropdown.Button overlay={overlay} {...rest} {...props} />
-    </StyledDropdownButton>
+      {/* </StyledDropdownButton> */}
+    </CacheProvider>
   );
   if (tooltip) {
     return buildButton({

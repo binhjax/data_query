@@ -86,6 +86,8 @@ class App extends React.PureComponent {
   }
 
   render() {
+    console.log("binhnt.injsection.sqllab.component.app: inject in app")
+
     let content;
     if (this.state.hash && this.state.hash === '#search') {
       if (isFeatureEnabled(FeatureFlag.ENABLE_REACT_CRUD_VIEWS)) {

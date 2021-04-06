@@ -1,21 +1,3 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
 /* eslint camelcase: 0 */
 import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
@@ -26,7 +8,7 @@ import { debounce } from 'lodash';
 import { Resizable } from 're-resizable';
 
 import { useDynamicPluginContext } from 'src/components/DynamicPlugins';
-import { Global } from '@emotion/core';
+import { Global } from '@emotion/react';
 import { Tooltip } from 'src/common/components/Tooltip';
 import { usePrevious } from 'src/common/hooks/usePrevious';
 import Icon from 'src/components/Icon';
@@ -41,7 +23,9 @@ import { fetchDatasourceMetadata } from 'src/injections/dashboard/actions/dataso
 import { chartPropShape } from 'src/injections/dashboard/util/propShapes';
 import { mergeExtraFormData } from 'src/injections/dashboard/components/nativeFilters/utils';
 import ExploreChartPanel from './ExploreChartPanel';
+
 import ConnectedControlPanelsContainer from './ControlPanelsContainer';
+
 import SaveModal from './SaveModal';
 import QueryAndSaveBtns from './QueryAndSaveBtns';
 import DataSourcePanel from './DatasourcePanel';
@@ -70,7 +54,7 @@ const propTypes = {
   controls: PropTypes.object.isRequired,
   forcedHeight: PropTypes.string,
   form_data: PropTypes.object.isRequired,
-  standalone: PropTypes.number.isRequired,
+  standalone: PropTypes.number,
   timeout: PropTypes.number,
   impressionId: PropTypes.string,
   vizType: PropTypes.string,
@@ -439,15 +423,17 @@ function ExploreViewContainer(props) {
           }
         `}
       />
-      {showingModal && (
-        <SaveModal
-          onHide={toggleModal}
-          actions={props.actions}
-          form_data={props.form_data}
-          sliceName={props.sliceName}
-          dashboardId={props.dashboardId}
-        />
-      )}
+
+      {
+        showingModal && (
+          <SaveModal
+            onHide={toggleModal}
+            actions={props.actions}
+            form_data={props.form_data}
+            sliceName={props.sliceName}
+            dashboardId={props.dashboardId}
+          />
+        )}
       <Resizable
         onResizeStop={(evt, direction, ref, d) =>
           setSidebarWidths(storageKeys.dataSourceWidth, d)
@@ -485,27 +471,28 @@ function ExploreViewContainer(props) {
           actions={props.actions}
         />
       </Resizable>
-      {isCollapsed ? (
-        <div
-          className="sidebar"
-          onClick={toggleCollapse}
-          data-test="open-datasource-tab"
-          role="button"
-          tabIndex={0}
-        >
-          <span role="button" tabIndex={0} className="action-button">
-            <Tooltip title={t('Open Datasource tab')}>
-              <Icon
-                name="collapse"
-                color={supersetTheme.colors.primary.base}
-                className="collapse-icon"
-                width={16}
-              />
-            </Tooltip>
-          </span>
-          <Icon name="dataset-physical" width={16} />
-        </div>
-      ) : null}
+      {
+        isCollapsed ? (
+          <div
+            className="sidebar"
+            onClick={toggleCollapse}
+            data-test="open-datasource-tab"
+            role="button"
+            tabIndex={0}
+          >
+            <span role="button" tabIndex={0} className="action-button">
+              <Tooltip title={t('Open Datasource tab')}>
+                <Icon
+                  name="collapse"
+                  color={supersetTheme.colors.primary.base}
+                  className="collapse-icon"
+                  width={16}
+                />
+              </Tooltip>
+            </span>
+            <Icon name="dataset-physical" width={16} />
+          </div>
+        ) : null}
       <Resizable
         onResizeStop={(evt, direction, ref, d) =>
           setSidebarWidths(storageKeys.controlsWidth, d)
@@ -529,13 +516,15 @@ function ExploreViewContainer(props) {
           errorMessage={renderErrorMessage()}
           datasourceType={props.datasource_type}
         />
-        <ConnectedControlPanelsContainer
-          actions={props.actions}
-          form_data={props.form_data}
-          controls={props.controls}
-          datasource_type={props.datasource_type}
-          isDatasourceMetaLoading={props.isDatasourceMetaLoading}
-        />
+        {
+          <ConnectedControlPanelsContainer
+            actions={props.actions}
+            form_data={props.form_data}
+            controls={props.controls}
+            datasource_type={props.datasource_type}
+            isDatasourceMetaLoading={props.isDatasourceMetaLoading}
+          />
+        }
       </Resizable>
       <div
         className={cx(
@@ -543,7 +532,9 @@ function ExploreViewContainer(props) {
           isCollapsed ? 'col-sm-9' : 'col-sm-7',
         )}
       >
-        {renderChartContainer()}
+        {
+          renderChartContainer()
+        }
       </div>
     </Styles>
   );
@@ -553,6 +544,7 @@ ExploreViewContainer.propTypes = propTypes;
 
 function mapStateToProps(state) {
   const { explore, charts, impressionId, dataMask } = state;
+  console.log("binhnt.injections.explore.components.ExploreViewContainer.mapStateToProps: explore = ", explore)
   const form_data = getFormDataFromControls(explore.controls);
   form_data.extra_form_data = mergeExtraFormData(
     { ...form_data.extra_form_data },

@@ -45,37 +45,40 @@ const menu = { ...bootstrap.common.menu_data };
 const common = { ...bootstrap.common };
 initFeatureFlags(bootstrap.common.feature_flags);
 
-const App = () => (
-  <ReduxProvider store={store}>
-    <ThemeProvider theme={theme}>
-      <FlashProvider messages={common.flash_messages}>
-        <Router>
-          <DynamicPluginProvider>
-            <QueryParamProvider
-              ReactRouterRoute={Route}
-              stringifyOptions={{ encode: false }}
-            >
-              <Menu data={menu} isFrontendRoute={isFrontendRoute} />
-              <Switch>
-                {routes.map(
-                  ({ path, Component, props = {}, Fallback = Loading }) => (
-                    <Route path={path} key={path}>
-                      <Suspense fallback={<Fallback />}>
-                        <ErrorBoundary>
-                          <Component user={user} {...props} />
-                        </ErrorBoundary>
-                      </Suspense>
-                    </Route>
-                  ),
-                )}
-              </Switch>
-              <ToastPresenter />
-            </QueryParamProvider>
-          </DynamicPluginProvider>
-        </Router>
-      </FlashProvider>
-    </ThemeProvider>
-  </ReduxProvider>
-);
+const App = () => {
+  console.log("binhnt.injsection.views.app: inject in app")
+  return (
+    <ReduxProvider store={store}>
+      <ThemeProvider theme={theme}>
+        <FlashProvider messages={common.flash_messages}>
+          <Router>
+            <DynamicPluginProvider>
+              <QueryParamProvider
+                ReactRouterRoute={Route}
+                stringifyOptions={{ encode: false }}
+              >
+                <Menu data={menu} isFrontendRoute={isFrontendRoute} />
+                <Switch>
+                  {routes.map(
+                    ({ path, Component, props = {}, Fallback = Loading }) => (
+                      <Route path={path} key={path}>
+                        <Suspense fallback={<Fallback />}>
+                          <ErrorBoundary>
+                            <Component user={user} {...props} />
+                          </ErrorBoundary>
+                        </Suspense>
+                      </Route>
+                    ),
+                  )}
+                </Switch>
+                <ToastPresenter />
+              </QueryParamProvider>
+            </DynamicPluginProvider>
+          </Router>
+        </FlashProvider>
+      </ThemeProvider>
+    </ReduxProvider>
+  );
+}
 
 export default hot(App);

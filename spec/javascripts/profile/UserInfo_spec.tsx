@@ -18,7 +18,7 @@
  */
 import React from 'react';
 import Gravatar from 'react-gravatar';
-import { Panel } from 'react-bootstrap';
+import { Card as Panel } from 'react-bootstrap';
 import { mount } from 'enzyme';
 import UserInfo from 'src/injections/profile/components/UserInfo';
 

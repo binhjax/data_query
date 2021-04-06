@@ -305,7 +305,7 @@ export default function DateFilterLabel(props: DateFilterControlProps) {
       <div className="footer">
         <Button
           buttonStyle="secondary"
-          cta
+          // cta
           key="cancel"
           onClick={onHide}
           data-test="cancel-button"
@@ -314,7 +314,7 @@ export default function DateFilterLabel(props: DateFilterControlProps) {
         </Button>
         <Button
           buttonStyle="primary"
-          cta
+          // cta
           disabled={!validTimeRange}
           key="apply"
           onClick={onSave}

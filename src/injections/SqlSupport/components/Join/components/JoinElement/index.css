@@ -1,0 +1,64 @@
+.element {
+  min-width: 220px;
+}
+.element_header {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  color: #ffff;
+  font-weight: 900;
+  font-size: 18px;
+  background: #316896;
+  cursor: pointer;
+}
+.element_header_text {
+  border: 0 solid #e2e8f0;
+  padding: 7px 20px;
+}
+.element_row {
+  position: relative;
+  font-size: 16px;
+  background: #f6f6f6;
+  cursor: pointer;
+  word-wrap: break-word;
+  cursor: move;
+}
+.element_row:hover {
+  background: #deecf3;
+}
+.element_port {
+  position: absolute;
+  background: transparent;
+  display: hidden;
+  width: 0;
+  height: 0;
+}
+
+.element_property {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 20px;
+}
+td {
+  padding: 3px;
+}
+.element_popover {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.more-button {
+  color: white;
+  font-size: 20px;
+  padding-top: 5px;
+}
+.join-element:hover {
+  background: #316896;
+}
+.join-element {
+  display: flex;
+  padding: 5px 2px !important;
+  border-radius: 5px;
+  justify-content: center;
+}

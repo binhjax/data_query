@@ -36,6 +36,7 @@ import {
 } from '@superset-ui/chart-controls';
 
 import Tabs from 'src/common/components/Tabs';
+
 import Collapse from 'src/common/components/Collapse';
 import { PluginContext } from 'src/components/DynamicPlugins';
 import Loading from 'src/components/Loading';
@@ -69,6 +70,7 @@ export type ExpandedControlPanelSectionConfig = Omit<
 };
 
 const Styles = styled.div`
+  margin-top: 10px;
   height: 100%;
   width: 100%;
   overflow: auto;
@@ -91,6 +93,11 @@ const Styles = styled.div`
 `;
 
 const ControlPanelsTabs = styled(Tabs)`
+   .ant-tabs-tab {
+     width: 50%;
+     justify-content: center;
+     display: flex;
+  }
   .ant-tabs-nav-list {
     width: ${({ fullWidth }) => (fullWidth ? '100%' : '50%')};
   }
@@ -287,6 +294,7 @@ export class ControlPanelsContainer extends React.Component<ControlPanelsContain
           id="controlSections"
           data-test="control-tabs"
           fullWidth={showCustomizeTab}
+          type="card"
         >
           <Tabs.TabPane key="query" tab={t('Data')}>
             <Collapse
@@ -298,18 +306,20 @@ export class ControlPanelsContainer extends React.Component<ControlPanelsContain
               {querySectionsToRender.map(this.renderControlPanelSection)}
             </Collapse>
           </Tabs.TabPane>
-          {showCustomizeTab && (
-            <Tabs.TabPane key="display" tab={t('Customize')}>
-              <Collapse
-                bordered
-                defaultActiveKey={expandedCustomSections}
-                expandIconPosition="right"
-                ghost
-              >
-                {displaySectionsToRender.map(this.renderControlPanelSection)}
-              </Collapse>
-            </Tabs.TabPane>
-          )}
+          {
+            showCustomizeTab && (
+              <Tabs.TabPane key="display" tab={t('Customize')}>
+                <Collapse
+                  bordered
+                  defaultActiveKey={expandedCustomSections}
+                  expandIconPosition="right"
+                  ghost
+                >
+                  {displaySectionsToRender.map(this.renderControlPanelSection)}
+                </Collapse>
+              </Tabs.TabPane>
+            )
+          }
         </ControlPanelsTabs>
       </Styles>
     );

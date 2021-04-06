@@ -68,7 +68,7 @@ const propTypes = {
   directPathToChild: PropTypes.arrayOf(PropTypes.string),
   focusedFilterField: PropTypes.object,
   setDirectPathToChild: PropTypes.func.isRequired,
-  setMountedTab: PropTypes.func.isRequired,
+  // setMountedTab: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
@@ -367,8 +367,9 @@ class DashboardBuilder extends React.Component {
 
 DashboardBuilder.propTypes = propTypes;
 DashboardBuilder.defaultProps = defaultProps;
-DashboardBuilder.childContextTypes = {
-  dragDropManager: PropTypes.object.isRequired,
-};
+
+// DashboardBuilder.childContextTypes = {
+//   dragDropManager: PropTypes.object.isRequired,
+// };
 
 export default DashboardBuilder;
