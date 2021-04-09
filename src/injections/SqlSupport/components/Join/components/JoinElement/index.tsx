@@ -1,8 +1,9 @@
 import Checkbox from 'antd/lib/checkbox/Checkbox';
-import React, { memo, FC } from 'react';
+import React, { memo, FC, useState } from 'react';
 import { NodeProps, Handle, Position, Node, Edge, ArrowHeadType } from 'react-flow-renderer';
 import { Popover, Button, Row, Col } from 'antd';
-import { MoreOutlined } from '@ant-design/icons';
+import { MoreOutlined, DownOutlined, UpOutlined } from '@ant-design/icons';
+
 import full_anti_join from '../../images/sql-join/full-anti-join.png';
 import full_outer_join from '../../images/sql-join/full-outer-join.png';
 import inner_join from '../../images/sql-join/inner-join.png';
@@ -10,6 +11,7 @@ import left_anti_join from '../../images/sql-join/left-anti-join.png';
 import right_anti_join from '../../images/sql-join/right-anti-join.png';
 import left_outer_join from '../../images/sql-join/left-outer-join.png';
 import right_outer_join from '../../images/sql-join/right-outer-join.png';
+
 import './index.css';
 
 
@@ -17,6 +19,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import * as action from '../../../../actions/join';
 import { v4 as uuidv4 } from 'uuid';
+
+const MAX_DISPLAY_ROW = 3
 const data = [
   {
     name: 'inner-join',
@@ -50,21 +54,33 @@ const data = [
 ];
 
 const JoinElement: FC<NodeProps> = (props) => {
-  // const elements = useSelector((state: any) => state.join.joinElements);
-  const elements = [];
+  const [displayLength, setDisplayLength] = useState(MAX_DISPLAY_ROW)
+  const elements = useSelector((state: any) => {
+    const { sqlDiagram } = state;
+    if (sqlDiagram != undefined) {
+      return state.sqlDiagram.joinElements
+    }
+    return [];
+  });
+
+  const tables = elements.filter((el) => el.type === 'table');
 
   const dispatch = useDispatch();
-  const setJoin = (name) => {
+
+  //binhnt: call set join 
+  const setJoin = (name: string) => {
     // create result table
     const newNodeId = uuidv4();
+
     const newNode: Node = {
       id: newNodeId,
-      type: 'join',
+      type: 'table',
       data: props.data,
       position: { x: props.xPos + 200, y: props.yPos + 400 },
     };
     // create join node
     const joinNodeId = uuidv4();
+
     const joinNode: Node = {
       id: joinNodeId,
       type: 'joinType',
@@ -85,6 +101,9 @@ const JoinElement: FC<NodeProps> = (props) => {
       targetHandle: 'top',
       type: 'step',
       labelStyle: { fontSize: 14, fontWeight: 700 },
+      style: { stroke: 'blue' },
+      arrowHeadType: ArrowHeadType.ArrowClosed
+
     };
     // create link from join node to result table
     const link2: Edge = {
@@ -94,22 +113,46 @@ const JoinElement: FC<NodeProps> = (props) => {
       sourceHandle: 'bottom',
       targetHandle: 'top',
       type: 'step',
+      style: { stroke: 'green' },
       labelStyle: { fontSize: 14, fontWeight: 700 },
-      arrowHeadType: ArrowHeadType.Arrow,
+      arrowHeadType: ArrowHeadType.ArrowClosed,
     };
     const els = elements.concat(joinNode, newNode, link1, link2);
+
     dispatch(action.setElements(els));
+
   };
 
   const content = (
     <Row>
-      {data.map((item, index) => (
-        <Col md={8} key={index} className='join-element' onClick={() => setJoin(item.name)}>
-          <img src={item.img} style={{ width: 23, height: 20 }} />
-        </Col>
-      ))}
+      {
+        tables.length > 1 && data.map((item, index) => (
+          <Col md={8} key={index} className='join-element' onClick={() => setJoin(item.name)}>
+            <img src={item.img} style={{ width: 23, height: 20 }} />
+          </Col>
+        ))
+      }
     </Row>
   );
+
+  const { columns } = props.data;
+  const sortedColumns = columns.sort((a: { key: string; }, b: { key: string; }) => {
+    if (a.key === 'pk') {
+      return 1;
+    }
+    if (b.key === 'pk') {
+      return -1;
+    }
+    return 0;
+  })
+  const displayColumns = sortedColumns.slice(0, displayLength)
+  const handleViewMore = () => {
+    // console.log("binhnt.view_more");
+    setDisplayLength(sortedColumns.length);
+  }
+  const handleCollapse = () => {
+    setDisplayLength(MAX_DISPLAY_ROW);
+  }
   return (
     <>
       <div className='element'>
@@ -127,40 +170,46 @@ const JoinElement: FC<NodeProps> = (props) => {
         <div className='element_header'>
           <div className='element_header_text'>{props.data.label}</div>
         </div>
-        {props.data.columns.map((item, index) => (
-          <>
+        {
+          displayColumns.map((item: { key: string; name: {} | null | undefined; }, index: React.Key | null | undefined) =>
             <div className='element_row' key={index}>
-              {item.key === 'pk' ? (
-                <>
+              {
+                item.key === 'pk' ? (
                   <div className='element_property' style={{ fontWeight: 700 }}>
                     <div style={{ color: '#000' }}>{item.name}</div>
                     <Checkbox />
                   </div>
-                </>
-              ) : (
-                ''
-              )}
-            </div>
-          </>
-        ))}
-        {props.data.columns.map((item, index) => (
-          <>
-            <div className='element_row' key={index}>
-              {item.key !== 'pk' ? (
-                <>
+                ) : (
                   <div className='element_property'>
                     <div>{item.name}</div>
                     <Checkbox />
                   </div>
-                </>
-              ) : (
-                ''
-              )}
+                )
+              }
             </div>
-          </>
-        ))}
+          )
+        }
 
         <Handle type='source' position={Position.Bottom} id='bottom' className='element_port' />
+      </div>
+      <div>
+        {
+          sortedColumns.length > displayLength && <div className='element_row'
+            style={{ textAlign: 'center' }}
+            onClick={handleViewMore}
+          >
+            <DownOutlined />
+          </div>
+        }
+        {
+          sortedColumns.length <= displayLength && sortedColumns.length > MAX_DISPLAY_ROW && <div className='element_row'
+
+            style={{ textAlign: 'center' }}
+            onClick={handleCollapse}
+          >
+            <UpOutlined />
+          </div>
+        }
       </div>
     </>
   );

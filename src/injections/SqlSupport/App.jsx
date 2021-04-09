@@ -34,11 +34,11 @@ const bootstrapData = JSON.parse(appContainer.getAttribute('data-bootstrap'));
 
 initFeatureFlags(bootstrapData.common.feature_flags);
 
-console.log("binhnt.injections.SqlSupport.App: bootstrapData=  ", JSON.stringify(bootstrapData))
+// console.log("binhnt.injections.SqlSupport.App: bootstrapData=  ", JSON.stringify(bootstrapData))
 
 const initialState = getInitialState(bootstrapData);
 
-console.log("binhnt.injections.SqlSupport.App: initialState=  ", JSON.stringify(initialState))
+// console.log("binhnt.injections.SqlSupport.App: initialState=  ", JSON.stringify(initialState))
 
 const sqlSupportPersistStateConfig = {
   paths: ['sqlSupport'],
@@ -46,7 +46,7 @@ const sqlSupportPersistStateConfig = {
     slicer: paths => state => {
       const subset = {};
       paths.forEach(path => {
-        console.log("binhnt.injections.SqlSupport.App: sqlSupportPersistStateConfig: path = ", path)
+        // console.log("binhnt.injections.SqlSupport.App: sqlSupportPersistStateConfig: path = ", path)
         // this line is used to remove old data from browser localStorage.
         // we used to persist all redux state into localStorage, but
         // it caused configurations passed from server-side got override.

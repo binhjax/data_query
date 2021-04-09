@@ -184,7 +184,9 @@ export class SouthPane extends React.PureComponent {
               displayLimit={props.displayLimit}
             />
           </Tabs.TabPane>
-          {dataPreviewTabs}
+          {
+            dataPreviewTabs
+          }
         </Tabs>
       </StyledPane>
     );

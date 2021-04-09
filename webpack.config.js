@@ -238,6 +238,7 @@ const config = {
     menu: addPreamble('src/injections/menu/index.tsx'),
     profile: addPreamble('/src/injections/profile/index.tsx'),
     explore: addPreamble('/src/injections/explore/index.jsx'),
+    data_explore: addPreamble('/src/injections/DataExplore/index.jsx'),
     showSavedQuery: [path.join(APP_DIR, '/src/injections/showSavedQuery/index.jsx')],
   },
   output,

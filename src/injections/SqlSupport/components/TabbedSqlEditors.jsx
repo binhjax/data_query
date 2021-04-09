@@ -351,13 +351,13 @@ class TabbedSqlEditors extends React.PureComponent {
           </Menu.Item>
         </Menu>
       );
-      
+
       const tabHeader = (
         <TabTitleWrapper>
           <div data-test="dropdown-toggle-button">
             <Dropdown overlay={menu} trigger={['click']} />
           </div>
-          <TabTitle>{qe.title}</TabTitle> 
+          <TabTitle>{qe.title}</TabTitle>
           <TabStatusIcon tabState={state} />{' '}
         </TabTitleWrapper>
       );
@@ -372,7 +372,7 @@ class TabbedSqlEditors extends React.PureComponent {
           <SqlEditor
             tables={
               this.props.tables.filter(xt => xt.queryEditorId === qe.id)
-              }
+            }
             queryEditorId={qe.id}
             editorQueries={this.state.queriesArray}
             dataPreviewQueries={this.state.dataPreviewQueries}

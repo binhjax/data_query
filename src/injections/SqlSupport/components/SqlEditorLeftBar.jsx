@@ -1,21 +1,3 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'src/components/Button';
@@ -170,25 +152,29 @@ export default class SqlEditorLeftBar extends React.PureComponent {
                 }
               `}
             >
-              {this.props.tables.map(table => (
-                <TableElement
-                  table={table}
-                  key={table.id}
-                  actions={this.props.actions}
-                />
-              ))}
+              {
+                this.props.tables.map(table => (
+                  <TableElement
+                    table={table}
+                    key={table.id}
+                    actions={this.props.actions}
+                  />
+                ))
+              }
             </Collapse>
           </StyledScrollbarContent>
         </StyledScrollbarContainer>
-        {shouldShowReset && (
-          <Button
-            buttonSize="small"
-            buttonStyle="danger"
-            onClick={this.resetState}
-          >
-            <i className="fa fa-bomb" /> {t('Reset state')}
-          </Button>
-        )}
+        {
+          shouldShowReset && (
+            <Button
+              buttonSize="small"
+              buttonStyle="danger"
+              onClick={this.resetState}
+            >
+              <i className="fa fa-bomb" /> {t('Reset state')}
+            </Button>
+          )
+        }
       </div>
     );
   }

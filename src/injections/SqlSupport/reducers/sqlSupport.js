@@ -379,11 +379,11 @@ export default function sqlSupportReducer(state = {}, action) {
     },
     [actions.MIGRATE_QUERY_EDITOR]() {
       // remove migrated query editor from localStorage
-      const { sqlSupport } = JSON.parse(localStorage.getItem('redux'));
+      const { sqlSupport } = JSON.parse(localStorage.getItem('redux-sqlsupport'));
       sqlSupport.queryEditors = sqlSupport.queryEditors.filter(
         qe => qe.id !== action.oldQueryEditor.id,
       );
-      localStorage.setItem('redux', JSON.stringify({ sqlSupport }));
+      localStorage.setItem('redux-sqlsupport', JSON.stringify({ sqlSupport }));
 
       // replace localStorage query editor with the server backed one
       return addToArr(
@@ -394,11 +394,11 @@ export default function sqlSupportReducer(state = {}, action) {
     },
     [actions.MIGRATE_TABLE]() {
       // remove migrated table from localStorage
-      const { sqlSupport} = JSON.parse(localStorage.getItem('redux'));
+      const { sqlSupport } = JSON.parse(localStorage.getItem('redux-sqlsupport'));
       sqlSupport.tables = sqlSupport.tables.filter(
         table => table.id !== action.oldTable.id,
       );
-      localStorage.setItem('redux', JSON.stringify({ sqlSupport }));
+      localStorage.setItem('redux-sqlsupport', JSON.stringify({ sqlSupport }));
 
       // replace localStorage table with the server backed one
       return addToArr(
@@ -409,11 +409,11 @@ export default function sqlSupportReducer(state = {}, action) {
     },
     [actions.MIGRATE_TAB_HISTORY]() {
       // remove migrated tab from localStorage tabHistory
-      const { sqlSupport } = JSON.parse(localStorage.getItem('redux'));
+      const { sqlSupport } = JSON.parse(localStorage.getItem('redux-sqlsupport'));
       sqlSupport.tabHistory = sqlSupport.tabHistory.filter(
         tabId => tabId !== action.oldId,
       );
-      localStorage.setItem('redux', JSON.stringify({ sqlSupport }));
+      localStorage.setItem('redux-sqlsupport', JSON.stringify({ sqlSupport }));
       const tabHistory = state.tabHistory.filter(
         tabId => tabId !== action.oldId,
       );

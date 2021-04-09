@@ -1,22 +1,4 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-import React from 'react';
+import React, { DragEvent } from 'react';
 import PropTypes from 'prop-types';
 import { Card as Well } from 'react-bootstrap';
 import Collapse from 'src/common/components/Collapse';
@@ -62,7 +44,14 @@ class TableElement extends React.PureComponent {
     this.toggleSortColumns = this.toggleSortColumns.bind(this);
     this.removeTable = this.removeTable.bind(this);
     this.setHover = debounce(this.setHover.bind(this), 100);
+
+
   }
+  onDragStart = (event, node) => {
+    event.stopPropagation();
+    event.dataTransfer.setData('application/reactflow', JSON.stringify(node));
+    event.dataTransfer.effectAllowed = 'move';
+  };
 
   setHover(hovered) {
     this.setState({ hovered });
@@ -171,25 +160,29 @@ class TableElement extends React.PureComponent {
               : t('Original table column order')
           }
         />
-        {table.selectStar && (
-          <CopyToClipboard
-            copyNode={
-              <IconTooltip aria-label="Copy">
-                <i aria-hidden className="fa fa-clipboard pull-left m-l-2" />
-              </IconTooltip>
-            }
-            text={table.selectStar}
-            shouldShowText={false}
-            tooltipText={t('Copy SELECT statement to the clipboard')}
-          />
-        )}
-        {table.view && (
-          <ShowSQL
-            sql={table.view}
-            tooltipText={t('Show CREATE VIEW statement')}
-            title={t('CREATE VIEW statement')}
-          />
-        )}
+        {
+          table.selectStar && (
+            <CopyToClipboard
+              copyNode={
+                <IconTooltip aria-label="Copy">
+                  <i aria-hidden className="fa fa-clipboard pull-left m-l-2" />
+                </IconTooltip>
+              }
+              text={table.selectStar}
+              shouldShowText={false}
+              tooltipText={t('Copy SELECT statement to the clipboard')}
+            />
+          )
+        }
+        {
+          table.view && (
+            <ShowSQL
+              sql={table.view}
+              tooltipText={t('Show CREATE VIEW statement')}
+              title={t('CREATE VIEW statement')}
+            />
+          )
+        }
         <IconTooltip
           className="fa fa-times table-remove pull-left m-l-2 pointer"
           onClick={this.removeTable}
@@ -206,6 +199,9 @@ class TableElement extends React.PureComponent {
         className="clearfix header-container"
         onMouseEnter={() => this.setHover(true)}
         onMouseLeave={() => this.setHover(false)}
+        draggable
+        // style={{ background: 'red' }}
+        onDragStart={(evt) => this.onDragStart(evt, table)}
       >
         <Tooltip
           id="copy-to-clipboard-tooltip"
@@ -278,14 +274,19 @@ class TableElement extends React.PureComponent {
   }
 
   render() {
+    const { table } = this.props;
     return (
       <Collapse.Panel
         {...this.props}
         header={this.renderHeader()}
         className="TableElement"
+
       >
-        {this.renderBody()}
+        {
+          this.renderBody()
+        }
       </Collapse.Panel>
+
     );
   }
 }

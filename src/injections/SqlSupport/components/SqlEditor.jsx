@@ -54,7 +54,6 @@ import ScheduleQueryButton from './ScheduleQueryButton';
 import EstimateQueryCostButton from './EstimateQueryCostButton';
 import ShareSqlLabQuery from './ShareSqlLabQuery';
 import SqlEditorLeftBar from './SqlEditorLeftBar';
-import AceEditorWrapper from './AceEditorWrapper';
 import {
   STATE_TYPE_MAP,
   SQL_EDITOR_GUTTER_HEIGHT,
@@ -68,8 +67,8 @@ import JoinDiagram from './Join';
 
 const LIMIT_DROPDOWN = [10, 100, 1000, 10000, 100000];
 const SQL_EDITOR_PADDING = 10;
-const INITIAL_NORTH_PERCENT = 30;
-const INITIAL_SOUTH_PERCENT = 70;
+const INITIAL_NORTH_PERCENT = 70;  //binhnt edit 
+const INITIAL_SOUTH_PERCENT = 30;
 const SET_QUERY_EDITOR_SQL_DEBOUNCE_MS = 2000;
 const VALIDATION_DEBOUNCE_MS = 600;
 const WINDOW_RESIZE_THROTTLE_MS = 100;
@@ -219,7 +218,8 @@ class SqlEditor extends React.PureComponent {
   onResizeStart() {
     // Set the heights on the ace editor and the ace content area after drag starts
     // to smooth out the visual transition to the new heights when drag ends
-    document.getElementsByClassName('ace_content')[0].style.height = '100%';
+    //binhnt: Need edit more
+    // document.getElementsByClassName('ace_content')[0].style.height = '100%';
   }
 
   onResizeEnd([northPercent, southPercent]) {
@@ -442,9 +442,13 @@ class SqlEditor extends React.PureComponent {
       <Split
         expandToMin
         className="queryPane"
-        sizes={[this.state.northPercent, this.state.southPercent]}
+        sizes={[
+          this.state.northPercent,
+          this.state.southPercent
+        ]
+        }
         elementStyle={this.elementStyle}
-        minSize={200}
+        minSize={50}
         direction="vertical"
         gutterSize={SQL_EDITOR_GUTTER_HEIGHT}
         onDragStart={this.onResizeStart}
@@ -453,20 +457,6 @@ class SqlEditor extends React.PureComponent {
         <div ref={this.northPaneRef} className="north-pane">
           {
             <JoinDiagram />
-            // <AceEditorWrapper
-            //   actions={this.props.actions}
-            //   autocomplete={this.state.autocompleteEnabled}
-            //   onBlur={this.setQueryEditorSql}
-            //   onChange={this.onSqlChanged}
-            //   queryEditor={this.props.queryEditor}
-            //   sql={this.props.queryEditor.sql}
-            //   schemas={this.props.queryEditor.schemaOptions}
-            //   tables={this.props.queryEditor.tableOptions}
-            //   functionNames={this.props.queryEditor.functionNames}
-            //   extendedTables={this.props.tables}
-            //   height={`${aceEditorHeight}px`}
-            //   hotkeys={hotkeys}
-            // /> 
           }
           {
             this.renderEditorBottomBar(hotkeys)
@@ -565,32 +555,36 @@ class SqlEditor extends React.PureComponent {
 
     const runMenuBtn = (
       <Menu>
-        {allowCTAS && (
-          <Menu.Item
-            onClick={() => {
-              this.setState({
-                showCreateAsModal: true,
-                createAs: CtasEnum.TABLE,
-              });
-            }}
-            key="1"
-          >
-            {t('CREATE TABLE AS')}
-          </Menu.Item>
-        )}
-        {allowCVAS && (
-          <Menu.Item
-            onClick={() => {
-              this.setState({
-                showCreateAsModal: true,
-                createAs: CtasEnum.VIEW,
-              });
-            }}
-            key="2"
-          >
-            {t('CREATE VIEW AS')}
-          </Menu.Item>
-        )}
+        {
+          allowCTAS && (
+            <Menu.Item
+              onClick={() => {
+                this.setState({
+                  showCreateAsModal: true,
+                  createAs: CtasEnum.TABLE,
+                });
+              }}
+              key="1"
+            >
+              {t('CREATE TABLE AS')}
+            </Menu.Item>
+          )
+        }
+        {
+          allowCVAS && (
+            <Menu.Item
+              onClick={() => {
+                this.setState({
+                  showCreateAsModal: true,
+                  createAs: CtasEnum.VIEW,
+                });
+              }}
+              key="2"
+            >
+              {t('CREATE VIEW AS')}
+            </Menu.Item>
+          )
+        }
       </Menu>
     );
     return (
@@ -612,7 +606,8 @@ class SqlEditor extends React.PureComponent {
                 overlayCreateAsMenu={showMenu ? runMenuBtn : null}
               />
             </span>
-            {isFeatureEnabled(FeatureFlag.ESTIMATE_QUERY_COST) &&
+            {
+              isFeatureEnabled(FeatureFlag.ESTIMATE_QUERY_COST) &&
               this.props.database &&
               this.props.database.allows_cost_estimate && (
                 <span>
@@ -626,7 +621,8 @@ class SqlEditor extends React.PureComponent {
                     tooltip={t('Estimate the cost before running a query')}
                   />
                 </span>
-              )}
+              )
+            }
             <span>
               <LimitSelectStyled>
                 <Dropdown overlay={this.renderQueryLimit()} trigger="click">
@@ -643,14 +639,16 @@ class SqlEditor extends React.PureComponent {
                 </Dropdown>
               </LimitSelectStyled>
             </span>
-            {this.props.latestQuery && (
-              <Timer
-                startTime={this.props.latestQuery.startDttm}
-                endTime={this.props.latestQuery.endDttm}
-                state={STATE_TYPE_MAP[this.props.latestQuery.state]}
-                isRunning={this.props.latestQuery.state === 'running'}
-              />
-            )}
+            {
+              this.props.latestQuery && (
+                <Timer
+                  startTime={this.props.latestQuery.startDttm}
+                  endTime={this.props.latestQuery.endDttm}
+                  state={STATE_TYPE_MAP[this.props.latestQuery.state]}
+                  isRunning={this.props.latestQuery.state === 'running'}
+                />
+              )
+            }
           </Form>
         </div>
         <div className="rightItems">
@@ -696,12 +694,14 @@ class SqlEditor extends React.PureComponent {
           timeout={300}
         >
           <div className={`schemaPane ${leftBarStateClass}`}>
-            <SqlEditorLeftBar
-              database={this.props.database}
-              queryEditor={this.props.queryEditor}
-              tables={this.props.tables}
-              actions={this.props.actions}
-            />
+            {
+              <SqlEditorLeftBar
+                database={this.props.database}
+                queryEditor={this.props.queryEditor}
+                tables={this.props.tables}
+                actions={this.props.actions}
+              />
+            }
           </div>
         </CSSTransition>
 

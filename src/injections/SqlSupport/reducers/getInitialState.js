@@ -146,14 +146,14 @@ export default function getInitialState({
    * in the browser's local storage.
    */
   if (
-    localStorage.getItem('redux') &&
-    JSON.parse(localStorage.getItem('redux')).sqlSupport
+    localStorage.getItem('redux-sqlsupport') &&
+    JSON.parse(localStorage.getItem('redux-sqlsupport')).sqlSupport
   ) {
-    const { sqlSupport } = JSON.parse(localStorage.getItem('redux'));
+    const { sqlSupport } = JSON.parse(localStorage.getItem('redux-sqlsupport'));
 
     if (sqlSupport.queryEditors.length === 0) {
       // migration was successful
-      localStorage.removeItem('redux');
+      localStorage.removeItem('redux-sqlsupport');
     } else {
       // add query editors and tables to state with a special flag so they can
       // be migrated if the `SQLLAB_BACKEND_PERSISTENCE` feature flag is on

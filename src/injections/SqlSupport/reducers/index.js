@@ -19,11 +19,14 @@
 import { combineReducers } from 'redux';
 
 import sqlSupport from './sqlSupport';
+import sqlDiagram from './sqlDiagram';
+
 import localStorageUsageInKilobytes from './localStorageUsage';
 import messageToasts from '../../../features/messageToasts/reducers/index';
 import common from './common';
 
 export default combineReducers({
+  sqlDiagram,
   sqlSupport,
   localStorageUsageInKilobytes,
   messageToasts,
