@@ -64,20 +64,7 @@ import {
   LineChartPlugin,
   LineMultiChartPlugin,
   TimePivotChartPlugin,
-} from '@teko-data-ui/legacy-preset-chart-nvd3';
-
-// import {
-//   // AreaChartPlugin,
-//   // BarChartPlugin,
-//   // BubbleChartPlugin,
-//   // BulletChartPlugin,
-//   // CompareChartPlugin,
-//   DistBarChartPlugin
-//   // DualLineChartPlugin,
-//   // LineChartPlugin,
-//   // LineMultiChartPlugin,
-//   // TimePivotChartPlugin,
-// } from '@teko-data-ui/legacy-plugin';
+} from '@teko-data-ui/preset-chart-nvd3';
 
 import { DeckGLChartPreset } from '@superset-ui/legacy-preset-chart-deckgl';
 import {

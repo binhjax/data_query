@@ -3301,6 +3301,30 @@
     typescript "^4.2.3"
     urijs "^1.18.10"
 
+"@teko-data-ui/preset-chart-nvd3@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@teko-data-ui/preset-chart-nvd3/-/preset-chart-nvd3-0.0.2.tgz#e11451e5e68c8c96558d182e26f68e0e3daaf50d"
+  integrity sha512-Ug6sAhPBru3CReASfa2SXKUCSbNskVfqvFicwZofr7DUpR+LiK8cssMf/8Yp2vV2Uyp+eIQ31MVjMR3JhzEyhA==
+  dependencies:
+    "@data-ui/xy-chart" "^0.0.84"
+    "@superset-ui/chart-controls" "^0.17.22"
+    "@superset-ui/core" "^0.17.22"
+    d3 "^3.5.17"
+    d3-tip "^0.9.1"
+    dompurify "^2.0.6"
+    fast-glob "^3.2.5"
+    fast-safe-stringify "^2.0.6"
+    fs-extra "^9.1.0"
+    lodash "^4.17.11"
+    mathjs "^8.0.1"
+    moment "^2.20.1"
+    nvd3-fork "^2.0.5"
+    prop-types "^15.6.2"
+    tsc "^1.20150623.0"
+    tsc-esm "^1.0.4"
+    typescript "^4.2.3"
+    urijs "^1.18.10"
+
 "@testing-library/dom@^7.28.1", "@testing-library/dom@^7.29.4":
   version "7.30.1"
   resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-7.30.1.tgz#07b6f3ccd7f1f1e34ab0406932073e2971817f3d"

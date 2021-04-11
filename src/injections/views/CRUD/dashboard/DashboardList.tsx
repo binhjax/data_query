@@ -17,7 +17,7 @@
  * under the License.
  */
 import { styled, SupersetClient, t } from '@superset-ui/core';
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import rison from 'rison';
 import { isFeatureEnabled, FeatureFlag } from 'src/bootstrap/featureFlags';
 import {
@@ -45,6 +45,8 @@ import ImportModelsModal from 'src/components/ImportModal/index';
 
 import Dashboard from 'src/injections/dashboard/containers/Dashboard';
 import DashboardCard from './DashboardCard';
+
+import './index.less';
 
 const PAGE_SIZE = 25;
 const PASSWORDS_NEEDED_MESSAGE = t(
@@ -86,9 +88,22 @@ const Actions = styled.div`
   color: ${({ theme }) => theme.colors.grayscale.base};
 `;
 
+interface WindowDimentions {
+  width: number;
+  height: number;
+}
+
+function getWindowDimensions(): WindowDimentions {
+  const { innerWidth: width, innerHeight: height } = window;
+
+  return {
+    width,
+    height
+  };
+}
+
 function DashboardList(props: DashboardListProps) {
   const { addDangerToast, addSuccessToast } = props;
-
   const {
     state: {
       loading,
@@ -119,6 +134,20 @@ function DashboardList(props: DashboardListProps) {
 
   const [importingDashboard, showImportModal] = useState<boolean>(false);
   const [passwordFields, setPasswordFields] = useState<string[]>([]);
+
+  const [windowDimensions, setWindowDimensions] = useState<WindowDimentions>(
+    getWindowDimensions()
+  );
+
+  useEffect(() => {
+    function handleResize(): void {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    return (): void => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const openDashboardImportModal = () => {
     showImportModal(true);
@@ -497,9 +526,19 @@ function DashboardList(props: DashboardListProps) {
       onClick: openDashboardImportModal,
     });
   }
+  var cardView = isFeatureEnabled(FeatureFlag.LISTVIEWS_DEFAULT_CARD_VIEW)
+
+  // console.log("binhnt.injections.views.CRUD.dashboard.DashboardList: dimension = ", windowDimensions)
+  if (windowDimensions?.width < 600) {
+    cardView = false
+  }
   return (
     <>
-      <SubMenu name={t('Dashboards')} buttons={subMenuButtons} />
+      {
+        <div className='hidden-sm' >
+          <SubMenu name={t('Dashboards')} buttons={subMenuButtons} />
+        </div>
+      }
       <ConfirmStatusChange
         title={t('Please confirm')}
         description={t(
@@ -507,73 +546,80 @@ function DashboardList(props: DashboardListProps) {
         )}
         onConfirm={handleBulkDashboardDelete}
       >
-        {confirmDelete => {
-          const bulkActions: ListViewProps['bulkActions'] = [];
-          if (canDelete) {
-            bulkActions.push({
-              key: 'delete',
-              name: t('Delete'),
-              type: 'danger',
-              onSelect: confirmDelete,
-            });
-          }
-          if (canExport) {
-            bulkActions.push({
-              key: 'export',
-              name: t('Export'),
-              type: 'primary',
-              onSelect: handleBulkDashboardExport,
-            });
-          }
-          return (
-            <>
-              {dashboardToEdit && (
-                <PropertiesModal
-                  dashboardId={dashboardToEdit.id}
-                  show
-                  onHide={() => setDashboardToEdit(null)}
-                  onSubmit={handleDashboardEdit}
-                />
-              )}
-              <ListView<Dashboard>
-                bulkActions={bulkActions}
-                bulkSelectEnabled={bulkSelectEnabled}
-                cardSortSelectOptions={sortTypes}
-                className="dashboard-list-view"
-                columns={columns}
-                count={dashboardCount}
-                data={dashboards}
-                disableBulkSelect={toggleBulkSelect}
-                fetchData={fetchData}
-                filters={filters}
-                initialSort={initialSort}
-                loading={loading}
-                pageSize={PAGE_SIZE}
-                renderCard={renderCard}
-                defaultViewMode={
-                  isFeatureEnabled(FeatureFlag.LISTVIEWS_DEFAULT_CARD_VIEW)
-                    ? 'card'
-                    : 'table'
+        {
+          confirmDelete => {
+            const bulkActions: ListViewProps['bulkActions'] = [];
+            if (canDelete) {
+              bulkActions.push({
+                key: 'delete',
+                name: t('Delete'),
+                type: 'danger',
+                onSelect: confirmDelete,
+              });
+            }
+            if (canExport) {
+              bulkActions.push({
+                key: 'export',
+                name: t('Export'),
+                type: 'primary',
+                onSelect: handleBulkDashboardExport,
+              });
+            }
+            return (
+              <>
+                {
+                  dashboardToEdit && (
+                    <PropertiesModal
+                      dashboardId={dashboardToEdit.id}
+                      show
+                      onHide={() => setDashboardToEdit(null)}
+                      onSubmit={handleDashboardEdit}
+                    />
+                  )
                 }
-              />
-            </>
-          );
-        }}
+                {
+                  <ListView<Dashboard>
+                    bulkActions={bulkActions}
+                    bulkSelectEnabled={bulkSelectEnabled}
+                    cardSortSelectOptions={sortTypes}
+                    className="dashboard-list-view"
+                    columns={columns}
+                    count={dashboardCount}
+                    data={dashboards}
+                    disableBulkSelect={toggleBulkSelect}
+                    fetchData={fetchData}
+                    filters={filters}
+                    initialSort={initialSort}
+                    loading={loading}
+                    pageSize={PAGE_SIZE}
+                    renderCard={renderCard}
+                    defaultViewMode={
+                      cardView ? 'card' : 'table'
+                    }
+                  />
+                }
+              </>
+            );
+          }}
       </ConfirmStatusChange>
 
-      <ImportModelsModal
-        resourceName="dashboard"
-        resourceLabel={t('dashboard')}
-        passwordsNeededMessage={PASSWORDS_NEEDED_MESSAGE}
-        confirmOverwriteMessage={CONFIRM_OVERWRITE_MESSAGE}
-        addDangerToast={addDangerToast}
-        addSuccessToast={addSuccessToast}
-        onModelImport={handleDashboardImport}
-        show={importingDashboard}
-        onHide={closeDashboardImportModal}
-        passwordFields={passwordFields}
-        setPasswordFields={setPasswordFields}
-      />
+      {
+        <div className='hidden-sm' >
+          <ImportModelsModal
+            resourceName="dashboard"
+            resourceLabel={t('dashboard')}
+            passwordsNeededMessage={PASSWORDS_NEEDED_MESSAGE}
+            confirmOverwriteMessage={CONFIRM_OVERWRITE_MESSAGE}
+            addDangerToast={addDangerToast}
+            addSuccessToast={addSuccessToast}
+            onModelImport={handleDashboardImport}
+            show={importingDashboard}
+            onHide={closeDashboardImportModal}
+            passwordFields={passwordFields}
+            setPasswordFields={setPasswordFields}
+          />
+        </div>
+      }
     </>
   );
 }

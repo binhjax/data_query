@@ -21,7 +21,7 @@ import parseCookie from 'src/utils/parseCookie';
 
 export default function setupClient() {
   //binhnt: Get csrf from server 
-  console.log("binhnt: setup -> setupClient ")
+  // console.log("binhnt: setup -> setupClient ")
   const csrfNode = document.querySelector<HTMLInputElement>('#csrf_token');
   const csrfToken = csrfNode?.value;
 

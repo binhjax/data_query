@@ -33,7 +33,7 @@ import App from './App';
 const appContainer = document.getElementById('app');
 const bootstrapData = JSON.parse(appContainer.getAttribute('data-bootstrap'));
 
-console.log("binhnt.dashboard: bootstrapData = ", bootstrapData)
+// console.log("binhnt.dashboard: bootstrapData = ", bootstrapData)
 initFeatureFlags(bootstrapData.common.feature_flags);
 const initState = getInitialState(bootstrapData);
 

@@ -294,7 +294,10 @@ const FilterBar: React.FC<FiltersBarProps> = ({
     !isInitialized || areObjectsEqual(dataMaskSelected, lastAppliedFilterData);
 
   return (
-    <BarWrapper data-test="filter-bar" className={cx({ open: filtersOpen })}>
+    <BarWrapper data-test="filter-bar" 
+      className={cx({ open: filtersOpen })}
+      
+    >
       <CollapsedBar
         className={cx({ open: !filtersOpen })}
         onClick={() => toggleFiltersBar(true)}

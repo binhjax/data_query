@@ -68,7 +68,8 @@ const propTypes = {
   directPathToChild: PropTypes.arrayOf(PropTypes.string),
   focusedFilterField: PropTypes.object,
   setDirectPathToChild: PropTypes.func.isRequired,
-  setMountedTab: PropTypes.func.isRequired,
+  setMountedTab: PropTypes.func,
+  // setMountedTab: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
@@ -142,6 +143,11 @@ class DashboardBuilder extends React.Component {
       ? dashboardLayout[DASHBOARD_ROOT_ID]
       : dashboardLayout[rootChildId];
   }
+
+  //binhnt fix bug
+  // static childContextTypes = {
+  //   dragDropManager: PropTypes.object.isRequired,
+  // };
 
   constructor(props) {
     super(props);
@@ -261,6 +267,8 @@ class DashboardBuilder extends React.Component {
               {({ dropIndicatorProps }) => (
                 <div>
                   {!hideDashboardHeader && <DashboardHeader />}
+
+
                   {dropIndicatorProps && <div {...dropIndicatorProps} />}
                   {topLevelTabs && (
                     <WithPopoverMenu
@@ -296,18 +304,20 @@ class DashboardBuilder extends React.Component {
         >
           {
             isFeatureEnabled(FeatureFlag.DASHBOARD_NATIVE_FILTERS) && !editMode && (
-              <StickyVerticalBar
-                filtersOpen={this.state.dashboardFiltersOpen}
-                topOffset={barTopOffset}
-              >
-                <ErrorBoundary>
-                  <FilterBar
-                    filtersOpen={this.state.dashboardFiltersOpen}
-                    toggleFiltersBar={this.toggleDashboardFiltersOpen}
-                    directPathToChild={directPathToChild}
-                  />
-                </ErrorBoundary>
-              </StickyVerticalBar>
+              <div className='teko-filter'>
+                <StickyVerticalBar
+                  filtersOpen={this.state.dashboardFiltersOpen}
+                  topOffset={barTopOffset}
+                >
+                  <ErrorBoundary>
+                    <FilterBar
+                      filtersOpen={this.state.dashboardFiltersOpen}
+                      toggleFiltersBar={this.toggleDashboardFiltersOpen}
+                      directPathToChild={directPathToChild}
+                    />
+                  </ErrorBoundary>
+                </StickyVerticalBar>
+              </div>
             )
           }
           <div className="grid-container" data-test="grid-container">
@@ -367,8 +377,6 @@ class DashboardBuilder extends React.Component {
 
 DashboardBuilder.propTypes = propTypes;
 DashboardBuilder.defaultProps = defaultProps;
-DashboardBuilder.childContextTypes = {
-  dragDropManager: PropTypes.object.isRequired,
-};
+
 
 export default DashboardBuilder;

@@ -57,17 +57,19 @@ const App = () => (
             >
               <Menu data={menu} isFrontendRoute={isFrontendRoute} />
               <Switch>
-                {routes.map(
-                  ({ path, Component, props = {}, Fallback = Loading }) => (
-                    <Route path={path} key={path}>
-                      <Suspense fallback={<Fallback />}>
-                        <ErrorBoundary>
-                          <Component user={user} {...props} />
-                        </ErrorBoundary>
-                      </Suspense>
-                    </Route>
-                  ),
-                )}
+                {
+                  routes.map(
+                    ({ path, Component, props = {}, Fallback = Loading }) => (
+                      <Route path={path} key={path}>
+                        <Suspense fallback={<Fallback />}>
+                          <ErrorBoundary>
+                            <Component user={user} {...props} />
+                          </ErrorBoundary>
+                        </Suspense>
+                      </Route>
+                    ),
+                  )
+                }
               </Switch>
               <ToastPresenter />
             </QueryParamProvider>

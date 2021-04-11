@@ -89,6 +89,7 @@
     "@superset-ui/preset-chart-xy": "^0.17.22",
     "@teko-data-ui/legacy-plugin": "0.0.5",
     "@teko-data-ui/legacy-preset-chart-nvd3": "0.0.12",
+    "@teko-data-ui/preset-chart-nvd3": "^0.0.2",
     "@vx/responsive": "^0.0.195",
     "abortcontroller-polyfill": "^1.1.9",
     "antd": "^4.9.4",

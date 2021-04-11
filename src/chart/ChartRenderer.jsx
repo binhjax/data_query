@@ -82,7 +82,7 @@ class ChartRenderer extends React.Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    console.log("binhnt.chart.ChartRenderer.shouldComponentUpdate:", this.props.width, nextProps.width)
+    // console.log("binhnt.chart.ChartRenderer.shouldComponentUpdate:", this.props.width, nextProps.width)
     const resultsReady =
       nextProps.queriesResponse &&
       ['success', 'rendered'].indexOf(nextProps.chartStatus) > -1 &&
@@ -113,7 +113,7 @@ class ChartRenderer extends React.Component {
   handleRenderSuccess() {
     const { actions, chartStatus, chartId, vizType } = this.props;
 
-    console.log("binhnt.chart.ChartRenderer.handleRenderSuccess: render successfully. ")
+    // console.log("binhnt.chart.ChartRenderer.handleRenderSuccess: render successfully. ")
     if (['loading', 'rendered'].indexOf(chartStatus) < 0) {
       actions.chartRenderingSucceeded(chartId);
     }
@@ -214,7 +214,7 @@ class ChartRenderer extends React.Component {
         }`
         : '';
 
-    console.log("binhnt.chart.ChartRenderer: render(): Call SuperChart with id , className, vizTye = ", chartId, chartClassName, vizType, width, height)
+    // console.log("binhnt.chart.ChartRenderer: render(): Call SuperChart with id , className, vizTye = ", chartId, chartClassName, vizType, width, height)
     return (
       <SuperChart
         disableErrorBoundary

@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { t, styled } from '@superset-ui/core';
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
 import NavDropdown from 'src/components/NavDropdown';
@@ -152,11 +152,53 @@ const StyledHeader = styled.header`
   }
 `;
 
+interface WindowDimentions {
+  width: number;
+  height: number;
+}
+
+function getWindowDimensions(): WindowDimentions {
+  const { innerWidth: width, innerHeight: height } = window;
+
+  return {
+    width,
+    height
+  };
+}
+
+
 export function Menu({
   data: { menu, brand, navbar_right: navbarRight, settings },
   isFrontendRoute = () => false,
 }: MenuProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const [windowDimensions, setWindowDimensions] = useState<WindowDimentions>(
+    getWindowDimensions()
+  );
+
+  useEffect(() => {
+    function handleResize(): void {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    return (): void => window.removeEventListener('resize', handleResize);
+  }, []);
+
+
+  const filteredMenu = menu.filter((item) => {
+    // console.log("binhnt.components.Menu.Menu: Check item = ", item)
+    if (windowDimensions?.width < 600) {
+      if (item.name == "Dashboards") {
+        return true;
+      }
+      return false;
+    } else {
+      return true;
+    }
+  })
 
   return (
     <StyledHeader className="top" id="main-menu">
@@ -173,7 +215,8 @@ export function Menu({
           <Nav data-test="navbar-top" className="navbar-nav" >
             {
               //binhnt: edit menu
-              menu.map((item, index) => {
+              filteredMenu.map((item, index) => {
+                // console.log("binhnt.components.Menu.Menu: item = ", item)
                 const props = {
                   ...item,
                   isFrontendRoute: isFrontendRoute(item.url),
@@ -264,16 +307,18 @@ export function Menu({
               ]}
             </DropdownMenu>
           </NavDropdown>
-          {navbarRight.documentation_url && (
-            <NavItem
-              href={navbarRight.documentation_url}
-              target="_blank"
-              title="Documentation"
-            >
-              <i className="fa fa-question" />
+          {
+            navbarRight.documentation_url && (
+              <NavItem
+                href={navbarRight.documentation_url}
+                target="_blank"
+                title="Documentation"
+              >
+                <i className="fa fa-question" />
               &nbsp;
-            </NavItem>
-          )}
+              </NavItem>
+            )
+          }
           {navbarRight.bug_report_url && (
             <NavItem
               href={navbarRight.bug_report_url}
@@ -316,6 +361,7 @@ export default function MenuWrapper({ data, ...rest }: MenuProps) {
   // Cycle through menu.menu to build out cleanedMenu and settings
   const cleanedMenu: MenuObjectProps[] = [];
   const settings: MenuObjectProps[] = [];
+
   newMenuData.menu.forEach((item: any) => {
     if (!item) {
       return;
@@ -329,6 +375,7 @@ export default function MenuWrapper({ data, ...rest }: MenuProps) {
     // Filter childs
     if (item.childs) {
       item.childs.forEach((child: MenuObjectChildProps | string) => {
+        // console.log("binhnt.components.Menu.Menu.MenuWrapper: ", item)
         if (typeof child === 'string') {
           children.push(child);
         } else if ((child as MenuObjectChildProps).label) {

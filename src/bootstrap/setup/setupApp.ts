@@ -52,9 +52,9 @@ function toggleCheckbox(apiUrlPrefix: string, selector: string) {
 }
 
 export default function setupApp() {
-  console.log("setup.setupApp: 1. start change element")
+  // console.log("setup.setupApp: 1. start change element")
   $(document).ready(function () {
-    console.log("setup.setupApp: 2. when document ready => setup SupersetClient ")
+    // console.log("setup.setupApp: 2. when document ready => setup SupersetClient ")
 
     $(':checkbox[data-checkbox-api-prefix]').change(function (
       this: HTMLElement,
@@ -79,7 +79,7 @@ export default function setupApp() {
         url: ev.currentTarget.href,
         parseMethod: null,
       }).then(() => {
-        console.log(" setup.setupApp:  setup url: ", ev.currentTarget.href)
+        // console.log(" setup.setupApp:  setup url: ", ev.currentTarget.href)
         window.location.reload();
       });
     });

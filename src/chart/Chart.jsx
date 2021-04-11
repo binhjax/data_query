@@ -107,7 +107,7 @@ class Chart extends React.PureComponent {
   }
 
   componentDidMount() {
-    console.log("binhnt.chart.Chart.componentDidMount: start")
+    // console.log("binhnt.chart.Chart.componentDidMount: start")
     if (this.props.triggerQuery) {
       this.runQuery();
     }
@@ -120,7 +120,7 @@ class Chart extends React.PureComponent {
   }
 
   runQuery() {
-    console.log("binhnt.chart.Chart.runQuery: start")
+    // console.log("binhnt.chart.Chart.runQuery: start")
 
     if (this.props.chartId > 0 && isFeatureEnabled(FeatureFlag.CLIENT_CACHE)) {
       // Load saved chart with a GET request

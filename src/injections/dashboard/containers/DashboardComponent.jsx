@@ -106,7 +106,7 @@ function mapStateToProps(
   if (component) {
     const componentType = component.type;
     if (componentType === ROW_TYPE || componentType === COLUMN_TYPE) {
-      console.log("binhnt.injections.dashboard.container.DashboardComponents: mapStateToProps : componentType =  ", componentType)
+      // console.log("binhnt.injections.dashboard.container.DashboardComponents: mapStateToProps : componentType =  ", componentType)
       const { occupiedWidth, minimumWidth } = getDetailedComponentWidth({
         id,
         components: dashboardLayout,
@@ -138,7 +138,7 @@ function mapDispatchToProps(dispatch) {
 class DashboardComponent extends React.PureComponent {
   render() {
     const { component } = this.props;
-    console.log("binhnt.injections.dashboard.containers.DashboardComponent: component = ", component.type)
+    // console.log("binhnt.injections.dashboard.containers.DashboardComponent: component = ", component.type)
     const Component = component ? componentLookup[component.type] : null;
     return Component ? <Component {...this.props} /> : null;
   }

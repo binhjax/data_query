@@ -43,7 +43,7 @@ function mapStateToProps(state) {
     nativeFilters,
   } = state;
 
-  console.log("binhnt.Dashboard.mapStateToProps: datasources = ", datasources)
+  // console.log("binhnt.Dashboard.mapStateToProps: datasources = ", datasources)
   return {
     initMessages: dashboardInfo.common.flash_messages,
     timeout: dashboardInfo.common.conf.SUPERSET_WEBSERVER_TIMEOUT,
